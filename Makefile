@@ -5,39 +5,41 @@
 #                                                     +:+ +:+         +:+      #
 #    By: asaadi <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2020/12/13 12:44:58 by asaadi            #+#    #+#              #
-#    Updated: 2020/12/13 12:54:00 by asaadi           ###   ########.fr        #
+#    Created: 2020/12/16 13:44:42 by asaadi            #+#    #+#              #
+#    Updated: 2020/12/17 11:24:29 by asaadi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libasm.a
 
-COMPIL = nasm -f macho64
+SRCS =	ft_strlen.s \
+		ft_strcpy.s \
+		ft_strcmp.s \
+		ft_write.s	\
+		ft_read.s	\
+		#ft_strdup.s
 
-LINKER = ld -macosx_version_min 10.7.0 -lSystem
+OBJS = $(SRCS:.s=.o)
 
-AR = ar rc
-
-RA = ranlib
-
-SRCS = ft_strlen.s
-
-OBJS = $(SRCS:.c=.o)
 
 all: $(NAME)
 
-$(NAME): 
-	$(OBJ)
-	$(AR) $(NAME) $(OBJS)
-	$(RA) $(NAME)
+$(NAME): $(OBJS) 
+	ar rcs $(NAME) $(OBJS)
 
-%.o: %.c
-	$(COMPIL) $<
+%.o	: %.s
+	nasm -f macho64 $< -o $@
 
 clean:
-	rm -rf $(OBJS)
+	rm -f $(OBJS)
 
-fclean:
-	rm - rf $(NAME)
+fclean: clean
+	rm -f $(NAME)
 
 re: fclean all
+
+main:
+	gcc main.c $(NAME)
+
+remove:
+	rm a.out
