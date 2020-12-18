@@ -12,7 +12,7 @@ _ft_cpy:
 			mov			byte dl, [rsi + rcx]
 			mov			[rdi + rcx], byte dl
 			inc			rcx
-			jmp 		_ft_cpy
+			jmp			_ft_cpy
 
 _ft_end:
 			mov			[rdi + rcx], byte 0
