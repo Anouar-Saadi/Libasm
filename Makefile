@@ -6,7 +6,7 @@
 #    By: asaadi <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/12/16 13:44:42 by asaadi            #+#    #+#              #
-#    Updated: 2020/12/17 11:24:29 by asaadi           ###   ########.fr        #
+#    Updated: 2020/12/18 11:23:52 by asaadi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ SRCS =	ft_strlen.s \
 		ft_strcmp.s \
 		ft_write.s	\
 		ft_read.s	\
-		#ft_strdup.s
+		ft_strdup.s
 
 OBJS = $(SRCS:.s=.o)
 
@@ -42,4 +42,4 @@ main:
 	gcc main.c $(NAME)
 
 remove:
-	rm a.out
+	rm a.out 2> /dev/null || true

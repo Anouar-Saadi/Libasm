@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <errno.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
@@ -9,6 +10,7 @@ char *ft_strcpy(char *dst, const char *src);
 int	ft_strcmp(const char *s1, const char *s2);
 ssize_t		ft_write(int fildes, const void *buf, size_t nbyte);
 ssize_t		ft_read(int fildes, void *buf, size_t nbyte);
+char	*ft_strdup(const char *s1);
 
 int		test_strlen()
 {
@@ -94,26 +96,42 @@ int	test_write()
 {
 	int fd;
 	int fd1;
+	char *buffer;
 
+
+	buffer = "Hello, Africa!";
 	fd = open("file.txt", O_CREAT | O_RDWR);
-	write(fd, "Hello, World!", ft_strlen("Hello, World!"));
+	write(fd, buffer, ft_strlen(buffer));
 	close(fd);
 	fd1 = open("file1.txt", O_CREAT | O_RDWR);
-	ft_write(fd1, "Hello, World!", ft_strlen("Hello, World!"));
+	ft_write(fd1, buffer, ft_strlen(buffer));
 	close(fd1);
 	return 0;
 }
 
-int main()
+int test_read()
 {
 	int fd;
-	char *buff;
-	char *buff1;
-
-	fd = open("file.txt", O_RDONLY);
-	ft_read(fd, buff, 5);
-	printf("|%s|\n", buff);
-	read(fd, buff1, 5);
-	printf("|%s|\n", buff1);
+	char buff[10];
+	ssize_t i;
+	//fd = open("file.tt", O_RDONLY);
+	fd = 1;
+	i = ft_read(fd, buff, 10);
 	close(fd);
+	printf("|%zd| |%s|\n", i, buff);
+
+	return 0;
+}
+
+int	main()
+{
+	char		*str;
+	char			*l;
+	
+	test_read();
+	//str = strdup("sdgfhjsafguasufdhxzhfhhxzcfhxz");
+	//printf("copy|%s| |%d|\n", str,ft_strlen(str));
+	//l = ft_strdup(str);
+	//printf("copy|%s| |%d|\n", l, ft_strlen(l));
+	return 0;
 }
