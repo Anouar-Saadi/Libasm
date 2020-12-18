@@ -53,10 +53,10 @@ void		test_write(void)
 	ssize_t	i;
 
 	buffer = "Hello, Africa!";
-	fd = open("file.txt", O_CREAT | O_RDWR | O_TRUNC, S_IRUSR|S_IWUSR);
+	fd = open("file.txt", O_CREAT | O_RDWR | O_TRUNC, S_IRUSR | S_IWUSR);
 	i = write(fd, buffer, ft_strlen(buffer));
 	close(fd);
-	fd1 = open("file1.txt", O_CREAT | O_RDWR | O_TRUNC, S_IRUSR|S_IWUSR);
+	fd1 = open("file1.txt", O_CREAT | O_RDWR | O_TRUNC, S_IRUSR | S_IWUSR);
 	i = ft_write(fd1, buffer, ft_strlen(buffer));
 	close(fd1);
 }
