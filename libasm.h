@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef _LIBASM_H_
-# define _LIBASM_H_
+#ifndef LIBASM_H
+# define LIBASM_H
 
 # include <stdio.h>
 # include <string.h>
