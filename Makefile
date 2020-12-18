@@ -6,7 +6,7 @@
 #    By: asaadi <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/12/16 13:44:42 by asaadi            #+#    #+#              #
-#    Updated: 2020/12/18 11:23:52 by asaadi           ###   ########.fr        #
+#    Updated: 2020/12/18 14:40:01 by asaadi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,21 +25,18 @@ OBJS = $(SRCS:.s=.o)
 all: $(NAME)
 
 $(NAME): $(OBJS) 
-	ar rcs $(NAME) $(OBJS)
+	@ar rcs $(NAME) $(OBJS)
+	@echo "\033[0;33m"
+	@echo "			The libasm library is created!\n"
+	@echo "\033[0m"
 
 %.o	: %.s
-	nasm -f macho64 $< -o $@
+	@nasm -f macho64 $< -o $@
 
 clean:
-	rm -f $(OBJS)
+	@rm -f $(OBJS)
 
 fclean: clean
-	rm -f $(NAME)
+	@rm -f $(NAME)
 
 re: fclean all
-
-main:
-	gcc main.c $(NAME)
-
-remove:
-	rm a.out 2> /dev/null || true

@@ -1,137 +1,101 @@
-#include <stdio.h>
-#include <string.h>
-#include <errno.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <fcntl.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: asaadi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/12/18 13:58:13 by asaadi            #+#    #+#             */
+/*   Updated: 2020/12/18 14:37:25 by asaadi           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int	ft_strlen(char *str);
-char *ft_strcpy(char *dst, const char *src);
-int	ft_strcmp(const char *s1, const char *s2);
-ssize_t		ft_write(int fildes, const void *buf, size_t nbyte);
-ssize_t		ft_read(int fildes, void *buf, size_t nbyte);
-char	*ft_strdup(const char *s1);
+#include "libasm.h"
 
-int		test_strlen()
+void		test_strlen(char *str)
 {
 	int a;
 	int s;
 
-	char *str;
-	char *str1;
-	char *str2;
-	char *str3;
-	char *str4;
-
-	str = "hello, World!";
-	str1 = "";
-	str2 = NULL;
-	str3 = "hello, World! This is Africa";
-	str4 = "hello, World!";
-	s = strlen(str3);
-	printf("%d %s\n", s, str3);
-	a = ft_strlen(str3);
-	printf("%d %s\n", a, str3);
-	return 0;
+	s = strlen(str);
+	printf("sys_strlen |%d| %s\n", s, str);
+	a = ft_strlen(str);
+	printf("asm_strlen |%d| %s\n", a, str);
 }
 
-int test_strcpy()
+void		test_strcmp(void)
 {
-	char *src00 = "";
-	char *src01 = "Hello, World!";
-	char *src02 = NULL;
-	char *src03 = "abcdefghijklmnopqrstuvwxyz";
-	char *src04 = "1337FUTUREISLOADING!";
-	char dest[100];
+	int		i;
+	char	*s1[5];
+	char	*s2[5];
 
-
-	strcpy(dest, src00);
-	printf("|%s|, |%s|\n", src00, dest);
-	ft_strcpy(dest, src00);
-	printf("|%s|, |%s|\n", src00, dest);
-	strcpy(dest, src01);
-	printf("|%s|, |%s|\n", src01, dest);
-	ft_strcpy(dest, src01);
-	printf("|%s|, |%s|\n", src01, dest);
-	strcpy(dest, src02);
-	printf("|%s|, |%s|\n", src02, dest);
-	ft_strcpy(dest, src02);
-	printf("|%s|, |%s|\n", src02, dest);
-	strcpy(dest, src03);
-	printf("|%s|, |%s|\n", src03, dest);
-	ft_strcpy(dest, src03);
-	printf("|%s|, |%s|\n", src03, dest);
-	strcpy(dest, src04);
-	printf("|%s|, |%s|\n", src04, dest);
-	ft_strcpy(dest, src04);
-	printf("|%s|, |%s|\n", src04, dest);
-	return (0);
+	s1[0] = "";
+	s1[1] = "Hello, World!";
+	s1[2] = NULL;
+	s1[3] = "abcdefghijklmnopqrstuvwxyz";
+	s1[4] = "1337FUTUREISLOADING!";
+	s2[0] = "";
+	s2[1] = "Hello, World!";
+	s2[2] = NULL;
+	s2[3] = "abcdefghijklmnopqrstuvwxyz";
+	s2[4] = "1337FUTUREISLOADING!";
+	i = strcmp(s1[0], s2[0]);
+	printf("sys_strcmp |%d|\n", i);
+	i = ft_strcmp(s1[0], s2[0]);
+	printf("asm_strcmp |%d|\n", i);
 }
 
-int	test_strcmp()
+void		test_write(void)
 {
-	int i;
-	
-	//test_strcpy();
-	i = strcmp("abcdefghijklmnopqrstuvwxyz","abcdefghijklmnopqrstuvwxy");
-	printf("alphabet|%d|\n", i);
-	i = ft_strcmp("abcdefghijklmnopqrstuvwxyz","abcdefghijklmnopqrstuvwxy");
-	printf("alphabet|%d|\n", i);
-	i = strcmp("hello","henlo");
-	printf("str|%d|\n", i);
-	i = ft_strcmp("hello","henlo");
-	printf("str|%d|\n", i);
-	i = strcmp("","");
-	printf("empty|%d|\n", i);
-	i = strcmp("","");
-	printf("empty|%d|\n", i);
-	i = strcmp(NULL,"abcdefghijklmnopqrstuvwxy");
-	printf("NULL|%d|\n", i);
-	i = ft_strcmp(NULL,"abcdefghijklmnopqrstuvwxy");
-	printf("NULL|%d|\n", i);
-	return 0;
-}
-
-int	test_write()
-{
-	int fd;
-	int fd1;
-	char *buffer;
-
+	int		fd;
+	int		fd1;
+	char	*buffer;
+	ssize_t	i;
 
 	buffer = "Hello, Africa!";
-	fd = open("file.txt", O_CREAT | O_RDWR);
-	write(fd, buffer, ft_strlen(buffer));
+	fd = open("file.txt", O_CREAT | O_RDWR | O_TRUNC, S_IRUSR|S_IWUSR);
+	i = write(fd, buffer, ft_strlen(buffer));
 	close(fd);
-	fd1 = open("file1.txt", O_CREAT | O_RDWR);
-	ft_write(fd1, buffer, ft_strlen(buffer));
+	fd1 = open("file1.txt", O_CREAT | O_RDWR | O_TRUNC, S_IRUSR|S_IWUSR);
+	i = ft_write(fd1, buffer, ft_strlen(buffer));
 	close(fd1);
-	return 0;
 }
 
-int test_read()
+void		test_read(void)
 {
-	int fd;
-	char buff[10];
-	ssize_t i;
-	//fd = open("file.tt", O_RDONLY);
-	fd = 1;
-	i = ft_read(fd, buff, 10);
+	int		fd;
+	char	buff[5];
+	ssize_t	i;
+
+	fd = open("file.txt", O_RDONLY);
+	i = read(fd, buff, 5);
 	close(fd);
-	printf("|%zd| |%s|\n", i, buff);
-
-	return 0;
+	printf("read |%zd| |%s|\n", i, buff);
 }
 
-int	main()
+int			main(void)
 {
-	char		*str;
-	char			*l;
-	
+	char *str[5];
+	char *sy_cpy;
+	char *my_cpy;
+	char dest[100];
+
+	str[0] = "";
+	str[1] = "Hello, World!";
+	str[2] = NULL;
+	str[3] = "abcdefghijklmnopqrstuvwxyz";
+	str[4] = "1337FUTUREISLOADING!";
+	test_strlen(str[0]);
+	strcpy(dest, str[0]);
+	printf("sys_cpy |%s|, |%s|\n", str[0], dest);
+	ft_strcpy(dest, str[0]);
+	printf("asm_cpy |%s|, |%s|\n", str[0], dest);
+	test_strcmp();
+	test_write();
 	test_read();
-	//str = strdup("sdgfhjsafguasufdhxzhfhhxzcfhxz");
-	//printf("copy|%s| |%d|\n", str,ft_strlen(str));
-	//l = ft_strdup(str);
-	//printf("copy|%s| |%d|\n", l, ft_strlen(l));
-	return 0;
+	sy_cpy = strdup(str[0]);
+	printf("sys_copy|%s| |%d|\n", sy_cpy, ft_strlen(sy_cpy));
+	my_cpy = ft_strdup(str[0]);
+	printf("asm_copy|%s| |%d|\n", my_cpy, ft_strlen(my_cpy));
+	return (0);
 }
